@@ -112,6 +112,7 @@ public class DivergingColorPalettePanel extends ColorBlindAwareColorChooserPanel
 		for (ColorBrewer palette: ColorBrewer.getDivergingColorPalettes(isShowColorBlindSave())) {
 			if (palette.name().equals(command)) {
 				((ColorPanelSelectionModel) model).setColorBrewer(palette);
+                                System.out.println(palette.name() + " comm:" + command);
 				break;
 			}
 		}

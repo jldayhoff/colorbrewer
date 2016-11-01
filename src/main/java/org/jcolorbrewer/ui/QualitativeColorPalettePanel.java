@@ -114,6 +114,7 @@ public class QualitativeColorPalettePanel extends ColorBlindAwareColorChooserPan
 		for (ColorBrewer palette: ColorBrewer.getQualitativeColorPalettes(isShowColorBlindSave())) {
 			if (palette.name().equals(command)) {
 				((ColorPanelSelectionModel) model).setColorBrewer(palette);
+                                System.out.println(palette.name() + " comm:" + command);
 				break;
 			}
 		}

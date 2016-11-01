@@ -61,6 +61,7 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -85,7 +86,10 @@ public class ColorPaletteChooserDialog
 //----------------------------------------------------------------------
 //  Fields
 //----------------------------------------------------------------------
-	/**
+	private ColorBlindAwareColorChooserPanel colorPanel = new SequentialColorPalettePanel();
+
+        
+        /**
 	 * The parent window.
 	 */
 	protected Window parent = null;
@@ -196,40 +200,93 @@ public class ColorPaletteChooserDialog
 
 		// Inner panel
 		this.innerPanel = new JPanel( );
-		this.innerPanel.setLayout( new BorderLayout( ) );
+		this.innerPanel.setLayout( new FlowLayout( ) );
 		this.innerPanel.setBorder( new CompoundBorder(
 			new BevelBorder( BevelBorder.LOWERED ),
 			new EmptyBorder( new Insets( 10, 10, 10, 10 ) ) ) );
 		pane.add(this.innerPanel, BorderLayout.CENTER);
 
 		// Colors Tab
-		final JPanel colorsTab = new JPanel( );
+		/*final JPanel colorsTab = new JPanel( );
 		colorsTab.setBorder(new EmptyBorder(10, 10, 10, 10));
 		//colorsTab.setLayout( new GridLayout(3, 1, 5, 0) );
 		colorsTab.setLayout(new BoxLayout(colorsTab, BoxLayout.Y_AXIS));
 		this.innerPanel.add(colorsTab);
-
+                */
+                
 		// set custom colorSelectionModel
 		ColorPanelSelectionModel model = new ColorPanelSelectionModel();
 		this.colorChooser = new JColorChooser(model);
 	
 		// overwrite the color chooser panels
-
+                
 		panels[0] = new SequentialColorPalettePanel();
 		panels[1] = new DivergingColorPalettePanel();
 		panels[2] = new QualitativeColorPalettePanel();
 		colorChooser.setChooserPanels(panels);
 		
+                //colorPanel = new SequentialColorPalettePanel();
 		// overwrite the default preview panel
 		colorChooser.setPreviewPanel(new JPanel()); 
-		colorsTab.add( this.colorChooser, BorderLayout.CENTER );
+		//TODO
+                //colorsTab.add( this.colorChooser, BorderLayout.CENTER );
 
+                final JRadioButton radioButton1 = new JRadioButton("One");
+                radioButton1.setActionCommand("One");
+                
+                final JRadioButton radioButton2 = new JRadioButton("Two");
+                radioButton2.setActionCommand("Two");
+
+   
+                //Group the radio buttons.
+                ButtonGroup group = new ButtonGroup();
+                group.add(radioButton1);
+                group.add(radioButton2);
+                
+                //TODO
+                innerPanel.add(radioButton1);
+                innerPanel.add(radioButton2);
+                innerPanel.add(panels[0]);
+                
+                radioButton1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        colorPanel = new SequentialColorPalettePanel();
+                        System.out.println("I WAS CLICKED1");
+                        innerPanel.removeAll();;
+                        innerPanel.add(radioButton1);
+                        innerPanel.add(radioButton2);
+                        innerPanel.add(panels[0]);
+                        
+                        innerPanel.repaint();
+                        pane.repaint();
+                        pane.validate();
+                    }
+                });
+                
+                radioButton2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        colorPanel = new DivergingColorPalettePanel();
+                        System.out.println("I WAS CLICKED2");
+                        innerPanel.removeAll();;
+                        innerPanel.add(radioButton1);
+                        innerPanel.add(radioButton2);
+                        innerPanel.add(panels[1]);
+                        
+                        innerPanel.repaint();
+                        pane.repaint();
+                        pane.validate();
+                    }
+                });
+                
 
 		// color blind friendly checkbox
 		final JPanel cbFriendlyPanel = new JPanel( );
 		cbFriendlyPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 		cbFriendlyPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
-		colorsTab.add(cbFriendlyPanel, BorderLayout.SOUTH);
+                //TODO
+		//colorsTab.add(cbFriendlyPanel, BorderLayout.SOUTH);
 
 		final JPanel cbFriendlyGridPanel = new JPanel( );
 
@@ -257,7 +314,8 @@ public class ColorPaletteChooserDialog
 		final JPanel buttonPanel = new JPanel( );
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 		buttonPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
-		colorsTab.add(buttonPanel, BorderLayout.CENTER);
+                //TODO
+		//colorsTab.add(buttonPanel, BorderLayout.CENTER);
 
 		final JPanel buttonGridPanel = new JPanel( );
 		buttonGridPanel.setLayout(new GridLayout(1, 3, 5, 0));
